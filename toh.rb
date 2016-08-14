@@ -73,6 +73,7 @@ class TowersOfHanoi
 
     col.each_index do |ind|
       if col[ind] != " "
+        puts "in the if"
         col[ind] = " "
       end
       break
@@ -86,14 +87,14 @@ class TowersOfHanoi
   def add_to_col(col_1, col_2)
     temp_i = 0
     for i in 0...col_1.length do
-      while col_1[i] == " " #&& (col_1[i] != "1" && col_1[i] != "2" && col_1[i] != "3" && col_1[i] != "o")
+      while (col_1[i] == " " && col_1[i] != "1" && col_1[i] != "2" && col_1[i] != "3" && col_1[i] != "o")
         temp_i = i
         break
     end
     end
 
     for j in 0...col_2.length do
-      if col_2[j] != " " #&& col_1[i] != "1" && col_1[i] != "2" && col_1[i] != "3"
+      if (col_2[j] != " " && col_1[i] != "1" && col_1[i] != "2" && col_1[i] != "3")
         col_2_temp = col_2[j]
       end
       break
@@ -132,19 +133,27 @@ class TowersOfHanoi
 
     until @game_over
       @player_move = []
+      puts "player_move: #{@player_move}"
       @player_move = get_player_move
+      puts "player_move: #{@player_move}"
       exit if @player_move[0] == "q"
 
       case @player_move
       when ["1", "2"]
         @col_b = add_to_col(@col_b, @col_a)
         @col_a = remove_from_col(@col_a)
+        puts "In the case: col_a: #{@col_a}"
+        puts "In the case: col_b: #{@col_b}, col_a: #{@col_a}"
       when ["1", "3"]
         @col_c = add_to_col(@col_c, @col_a)
         @col_a = remove_from_col(@col_a)
+        puts "In the case: col_a: #{@col_a}"
+        puts "In the case: col_c: #{@col_c}, col_a: #{@col_a}"
       when ["2", "3"]
         @col_c = add_to_col(@col_c, @col_b)
         @col_b = remove_from_col(@col_b)
+        puts "In the case: col_b: #{@col_b}"
+        puts "In the case: col_c: #{@col_c}, col_b: #{@col_b}"
       when ["2", "1"]
         @col_a = add_to_col(@col_1, @col_b)
         @col_b = remove_from_col(@col_b)
