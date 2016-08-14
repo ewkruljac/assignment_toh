@@ -9,7 +9,7 @@ class TowersOfHanoi
 @col_b = []
 @col_c = []
 @game_board = []
-
+@game_over = false
 
 
   def start_game
@@ -33,8 +33,8 @@ class TowersOfHanoi
       col_a[i-1] = "o" * i
     end
 
-    col_a.push("-" * tower_height)
-
+    col_a.push"1"
+    col_a
   end
 
 #---------
@@ -43,11 +43,9 @@ class TowersOfHanoi
     cols = []
 
     for i in 1..tower_height do
-      cols[i-1] = " " * i
+      cols[i-1] = " "
     end
-
-    cols.push("-" * tower_height)
-
+    cols
   end
 
 #----------
@@ -71,27 +69,98 @@ class TowersOfHanoi
 
 #----------
 
-  def update_game_board(col_a, col_b, col_c, player_move)
+  def remove_from_col(col)
 
-    
+    col.each_index do |ind|
+      if col[ind] != " "
+        col[ind] = " "
+      end
+      break
+    end
+
+    return col
+  end
+
+#------------
+
+  def add_to_col(col_1, col_2)
+    temp_i = 0
+    for i in 0...col_1.length do
+      while col_1[i] == " " #&& (col_1[i] != "1" && col_1[i] != "2" && col_1[i] != "3" && col_1[i] != "o")
+        temp_i = i
+        break
+    end
+    end
+
+    for j in 0...col_2.length do
+      if col_2[j] != " " #&& col_1[i] != "1" && col_1[i] != "2" && col_1[i] != "3"
+        col_2_temp = col_2[j]
+      end
+      break
+    end
+
+    col_1[temp_i] = col_2[j]
+
+    return col_1
+  end
+
+#-------------
+
+
+#-------------
+
+  def display_updated_game_board(col_a, col_b, col_c, player_move)
+
+    move_1 = player_move[0]
+    move_2 = player_move[1]
 
 
 
   end
 
+#----------
 
   def game_loop
-
     @tower_height = start_game
+    @min_turns = 2**@tower_height - 1
     @col_a = init_col_a(@tower_height)
     @col_b = init_empty_cols(@tower_height)
+    @col_b.push("2")
     @col_c = init_empty_cols(@tower_height)
+    @col_c.push("3")
     display_game_board(@col_a, @col_b, @col_c, @tower_height)
-    @player_move = get_player_move
-    exit if @player_move[0] == "q"
-    @game_board = update_game_board(@col_a, @col_b, @col_c, @player_move)
-    #check_for_win if @current_turn >= @min_turns
 
+    until @game_over
+      @player_move = []
+      @player_move = get_player_move
+      exit if @player_move[0] == "q"
+
+      case @player_move
+      when ["1", "2"]
+        @col_b = add_to_col(@col_b, @col_a)
+        @col_a = remove_from_col(@col_a)
+      when ["1", "3"]
+        @col_c = add_to_col(@col_c, @col_a)
+        @col_a = remove_from_col(@col_a)
+      when ["2", "3"]
+        @col_c = add_to_col(@col_c, @col_b)
+        @col_b = remove_from_col(@col_b)
+      when ["2", "1"]
+        @col_a = add_to_col(@col_1, @col_b)
+        @col_b = remove_from_col(@col_b)
+      when ["3", "1"]
+        @col_a = add_to_col(@col_c, @col_a)
+        @col_c = remove_from_col(@col_c)
+      when ["3,", "2"]
+        @col_b = add_to_col(@col_c, @col_b)
+        @col_c = remove_from_col(@col_b)
+      end
+
+      display_game_board(@col_a, @col_b, @col_c, @tower_height)
+    #check_for_win if @current_turn >= @min_turns
+    #@game_board = update_game_board(@col_a, @col_b, @col_c, @player_move)
+    #check_for_win if @current_turn >= @min_turns
+    end
   end
 
 end
