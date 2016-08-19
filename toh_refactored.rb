@@ -165,11 +165,6 @@ class TowersOfHanoi
       return error_free
     end
 
-    #if player_move[1].to_i > 3
-    #  puts "Invalid input.  Ex. '1.3'."
-    #  return false
-    #end
-
     a = player_move[0].to_i
     b = player_move[1].to_i
 
@@ -239,11 +234,6 @@ class TowersOfHanoi
         @stack_error_free = valid_move?(@active_cols, @tower_height, @player_move)
         puts "You may not move a larger stack onto a smaller stack."
       end
-
-    #  until @stack_error_free
-    #    @player_move = get_player_move
-    #    @stack_error_free = valid_move?(@active_cols, @tower_height, @player_move)
-    #  end
 
       exit if @player_move[0] == "q"
 
